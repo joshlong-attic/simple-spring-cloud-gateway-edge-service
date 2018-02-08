@@ -1,0 +1,59 @@
+<script>
+
+    try {
+
+        function log(x) {
+            window.alert(x);
+        }
+
+        var root = 'http://localhost:8080';
+        var saganInfo = root + '/sagan-info';
+        var usdRates = root + '/usd-rates';
+
+        function renderRatesTable(rates) {
+            var usdRatesElement = document.getElementById('usd-rates');
+            var table = document.createElement('table');
+            for (var c in rates) {
+
+                var row = document.createElement('tr');
+
+                var currency = document.createElement('td');
+                currency.appendChild(document.createTextNode(c));
+
+                var price = document.createElement('td');
+                price.appendChild(document.createTextNode(rates[c]));
+
+                row.appendChild(currency);
+                row.appendChild(price);
+
+                table.appendChild(row);
+            }
+            usdRatesElement.appendChild(table);
+
+
+        }
+
+        fetch(usdRates)
+            .then(function (response) {
+                response.json().then(function (data) {
+                    renderRatesTable(data['rates']);
+                });
+            })
+            .catch(function (err) {
+                console.log('Fetch Error :-S', err);
+            });
+
+    }
+    catch (e) {
+        console.log('oops! ' + e.toString());
+    }
+
+</script>
+
+<div id="usd-rates" style="position: absolute ; left: 100px ">
+
+</div>
+
+<div id="sagan-branch">
+
+</div>
